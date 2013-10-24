@@ -28,14 +28,22 @@ public class Klient {
 	
 	try {
 		Klient k = new Klient();
-            k.interf = (Interfejs) Naming.lookup(file_name);
-            k.id = k.interf.registryClient(user_name);
-            k.interf.getClientList();
-	    System.out.println("Gdy bedziesz gotów, by rozpocząć grę, wpisz \"r\"\n");
-	    Scanner in = new Scanner(System.in);
-	    k.ready = in.next();
-	     
-            
+            	k.interf = (Interfejs) Naming.lookup(file_name);
+            	k.id = k.interf.registryClient(user_name);
+            	k.players_list = k.interf.getClientList();
+	    	System.out.println("Gdy bedziesz gotów, by rozpocząć grę, wpisz \"r\"\n");
+	    	Scanner in = new Scanner(System.in);
+	    	k.ready = in.next();
+		k.interf.SetReady(k.id);
+		boolean ready_all = false;
+		while (!ready_all) {
+			for(int i = 0; i < k.players_list.size(); i++) {
+			if (!k.players_list.get(i).isReady()) break;
+			if (i == k.players_list.size() - 1 && k.players_list.get(i).isReady()) ready_all = true;
+			}
+		}	
+		//k.interf.GiveAnswer(k.id);
+	        
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (RemoteException e) {
