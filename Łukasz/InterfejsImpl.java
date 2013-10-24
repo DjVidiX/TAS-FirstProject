@@ -36,7 +36,8 @@ public class InterfejsImpl extends UnicastRemoteObject implements Interfejs {
     	return 2;
     }
     
-    public void getClientList() throws RemoteException {
+    public List<Player> get() throws RemoteException {
+	return clientsList;
     }
     
     
