@@ -20,7 +20,7 @@ import java.util.*;
 public class InterfejsImpl extends UnicastRemoteObject implements Interfejs {
 
     //konstruktor zdalnego obiektu
-	private static List<String> clientsList= new LinkedList<String>();
+	private static List<Player> clientsList = new LinkedList<Player>();
 
     public InterfejsImpl() throws RemoteException {
         super(); //tutaj jest wywołany konstruktor UnicastRemoteObject
@@ -28,11 +28,18 @@ public class InterfejsImpl extends UnicastRemoteObject implements Interfejs {
     
     
     public int registryClient(String name) throws RemoteException {
-    	this.clientsList.add(name);
-    	for(String l: clientsList) {
-		System.out.println("Zarejestrowałem gracza o imieniu " + l);
+    	clientsList.add(new Player(name));
+    	for(Player l: clientsList) {
+		System.out.println("Zarejestrowałem gracza o imieniu " + l.getName());
     	}
     	
-    	return clientsList.indexOf(name);
+    	return 2;
     }
+    
+    public List<Player> get() throws RemoteException {
+	return clientsList;
+    }
+    
+    
+    
 }
