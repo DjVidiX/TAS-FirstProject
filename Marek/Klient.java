@@ -14,16 +14,16 @@ public class Klient {
                     .println("parametry: //host/nazwa nazwa_użytkownika");
             System.exit(0);
         }
-        String nazwa = args[0];
-        String name = args[1];
+        String file_name = args[0];
+        String user_name = args[1];
 
         if (System.getSecurityManager() == null) {
             System.setSecurityManager(new RMISecurityManager());
         }
 	
 	try {
-            interfejs = (Interfejs) Naming.lookup(nazwa);
-            id = interfejs.registryClient(name);
+            interfejs = (Interfejs) Naming.lookup(file_name);
+            id = interfejs.registryClient(user_name);
             lista_graczy = interfejs.getClientList();
             
         } catch (MalformedURLException e) {
