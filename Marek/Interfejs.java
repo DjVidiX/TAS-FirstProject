@@ -14,8 +14,6 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 public interface Interfejs extends Remote {
-
-    public long obliczNWD(long a, long b) throws RemoteException;
     
     public int registryClient(String nazwa) throws RemoteException;
 }

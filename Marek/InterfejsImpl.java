@@ -20,29 +20,19 @@ import java.util.*;
 public class InterfejsImpl extends UnicastRemoteObject implements Interfejs {
 
     //konstruktor zdalnego obiektu
-	private List clientsList= new LinkedList();
+	private static List<String> clientsList= new LinkedList<String>();
 
     public InterfejsImpl() throws RemoteException {
         super(); //tutaj jest wywołany konstruktor UnicastRemoteObject
     }
-
-    //definicja zdalnej metody
-
-    public long obliczNWD(long a, long b) throws RemoteException {
-        System.out.println("Otrzymałem liczby " + a + " i " + b);
-        while (a != b)
-            if (a > b)
-                a = a - b;
-            else
-                b = b - a;
-
-        return a;
-    }
+    
     
     public int registryClient(String name) throws RemoteException {
     	this.clientsList.add(name);
-    	System.out.print("Zarejestrowałem gracza o imieniu " + name);
+    	for(String l: clientsList) {
+		System.out.println("Zarejestrowałem gracza o imieniu " + l);
+    	}
     	
-    	return 1;
+    	return clientsList.indexOf(name);
     }
 }

@@ -10,6 +10,7 @@ public class Klient {
 	private String name;
 	private Interfejs interfejs;
 	private String nazwa;
+	private int id;
 	
 	public Klient() {
 		this.name = "Undefined";
@@ -19,13 +20,10 @@ public class Klient {
 		this.name = name;
 	}
 	
-	public void registry(String nazwa, long a, long b) {
+	public void registry(String nazwa) {
 		try {
-            this.interfejs = (Interfejs) Naming.lookup(nazwa);
-            long wynik = this.interfejs.obliczNWD(a, b);
-            System.out.println("NWD (" + a + "," + b + ") = " + wynik);
-            
-            int id = this.interfejs.registryClient("Łukasz gej");
+            interfejs = (Interfejs) Naming.lookup(nazwa);
+            id = interfejs.registryClient(name);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (RemoteException e) {
@@ -37,21 +35,19 @@ public class Klient {
 
     public static void main(String[] args) {
 
-        if (args.length != 3) {
+        if (args.length != 2) {
             System.out
-                    .println("parametry: //host/nazwa pierwsza_liczba druga_liczba");
+                    .println("parametry: //host/nazwa nazwa_użytkownika");
             System.exit(0);
         }
         String nazwa = args[0];
-
-        long a = Long.parseLong(args[1]);
-        long b = Long.parseLong(args[2]);
+        String name = args[1];
 
         if (System.getSecurityManager() == null) {
             System.setSecurityManager(new RMISecurityManager());
         }
 
-        Klient k = new Klient();
-        k.registry(nazwa, a, b);
+        Klient k = new Klient(name);
+        k.registry(nazwa);
     }
 }
