@@ -30,27 +30,39 @@ public class InterfejsImpl extends UnicastRemoteObject implements Interfejs {
     
     
     public int registryClient(String name) throws RemoteException {
-	int id = 0;
+    	int id = 0;
     	clientsList.add(new Player(name, counter++));
     	for(Player l: clientsList) {
 		id = l.getId();
-		System.out.println("Zarejestrowałem gracza o imieniu " + l.getName() + " i id= " + id);
     	}
-
+    	//System.out.println("Zarejestrowałem gracza o imieniu " + clientsList.get(counter - 1).getName() + " i id= " + id);
     	return id;
     }
     
-    public LinkedList<Player> getClientList() throws RemoteException {
-	LinkedList<Player> list = new LinkedList<Player>(clientsList);
-	return list;
-    }
+    /*public LinkedList<Player> getClientList() throws RemoteException {
+	return clientsList;
+    }*/
     
     public void SetReady(int user_id) throws RemoteException {
-	for(Player l: clientsList) {
-		if(l.getId() == user_id) {
-			l.setReady();
+		for(Player l: clientsList) {
+			if(l.getId() == user_id) {
+				l.setReady();
+			}
 		}
-	}
+    }
+    
+    public void waitForPlayers() throws RemoteException {
+    	boolean ready_all = false;
+    	while (!ready_all) {
+    		for(int i = 0; i < clientsList.size(); i++) {
+				if (!clientsList.get(i).isReady()) {
+					ready_all = false;
+					break;
+				}
+				else ready_all = true;
+    		}
+    	}
+    	
     }
     
     

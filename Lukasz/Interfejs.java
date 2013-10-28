@@ -17,6 +17,7 @@ import java.util.*;
 public interface Interfejs extends Remote {
     
     public int registryClient(String nazwa) throws RemoteException;
-    public LinkedList<Player> getClientList() throws RemoteException;
+    //public LinkedList<Player> getClientList() throws RemoteException;
+    public void waitForPlayers() throws RemoteException;
     public void SetReady(int id) throws RemoteException;
 }

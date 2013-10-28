@@ -34,6 +34,7 @@ public class Serwer {
             //rejestracja zdalnego obiektu
 
             Naming.rebind(nazwa, impl);
+	
         } catch (RemoteException e) {
             e.printStackTrace();
         } catch (MalformedURLException e) {

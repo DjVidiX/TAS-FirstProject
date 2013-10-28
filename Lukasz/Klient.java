@@ -8,16 +8,17 @@ import java.util.*;
 public class Klient {
 
 	private int id;
-	private String ready = null;
+	private String ready = "lol";
 	private Interfejs interf = null;
-	private LinkedList<Player> players_list = new LinkedList<Player>();
-	private Timer timer;
+	//private List[Integer];
+	//private LinkedList<Player> players_list = new LinkedList<Player>();
+	//private Timer timer;
 	//private GetAnswerTask GAT;
 
 	/*class GetAnswerTask extends TimerTask {
-
+		
 		private String answer;
-
+		
 		@Override
         	public void run() {
 			Scanner temp = new Scanner(System.in);
@@ -44,26 +45,27 @@ public class Klient {
         }
 	
 	try {
-			Klient k = new Klient();
+	    	Klient k = new Klient();
             k.interf = (Interfejs) Naming.lookup(file_name);
             k.id = k.interf.registryClient(user_name);
-            k.players_list = k.interf.getClientList();
+            //k.players_list = k.interf.getClientList();
 	    	System.out.println("Gdy bedziesz gotów, by rozpocząć grę, wpisz \"r\"\n");
 	    	while (!k.ready.equals("r")) {
 	    		Scanner in = new Scanner(System.in);
 	    		k.ready = in.next();
 	    	}
 	    	System.out.println("Oczekiwanie na pozostalych graczy...\n");
-			k.interf.SetReady(k.id);
+	    	k.interf.waitForPlayers();
+	    	
+			/*k.interf.SetReady(k.id);
 			boolean ready_all = false;
 			while (!ready_all) {
 				for(int i = 0; i < k.players_list.size(); i++) {
 				if (!k.players_list.get(i).isReady()) break;
 				if (i == k.players_list.size() - 1 && k.players_list.get(i).isReady()) ready_all = true;
-				}
-		}
-		System.out.println("Gra rozpoczęta.\n");
-		
+				}*/
+	    	System.out.println("Gra rozpoczęta.\n");
+
 		//k.timer = new Timer();
 		//k.timer.schedule(k.GAT, 0, 2000);
 	        
