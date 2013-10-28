@@ -14,6 +14,10 @@ class Player {
 		this.name = name;
 	}
 	
+	public void setCounter(int counter) {
+		Player.counter = counter;
+	}
+	
 	public boolean answered() {
 		return ifAnswer;
 	}
@@ -42,7 +46,7 @@ class Player {
 		return points;
 	}
 	
-	public void increasePoints(int p) {
-		this.points += p;
+	public void increasePoints() {
+		this.points++;
 	}
 }

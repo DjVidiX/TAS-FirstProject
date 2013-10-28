@@ -45,7 +45,7 @@ public class Klient {
 	    	
 	    	for (int i = 0; i < 5; i++) {
 	    		Random rn = new Random();
-	    		int randomNum = rn.nextInt(12);
+	    		int randomNum = rn.nextInt(64);
 	    		
 	    		k.question = k.interf.getQuestion(randomNum);
 	    		
@@ -56,11 +56,9 @@ public class Klient {
 	    		
 	    		System.out.println("Oczekiwanie na odpowiedzi pozostałych graczy...\n");
 
-	    		k.interf.waitForAnswers();
-	    		PrintWriter my = new PrintWriter(System.out);
+	    		k.interf.waitForAnswers();	    		
 	    		
-	    		
-	    		k.scoreTable = k.interf.getScoreTable(0, k.id);
+	    		k.scoreTable = k.interf.getScoreTable(randomNum, k.id);
 	    		
 		    	System.out.println("\n"+ k.scoreTable + "\n\n");
 	    	}

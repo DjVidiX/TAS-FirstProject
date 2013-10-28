@@ -22,3 +22,43 @@ Jaki jest angielski odpowiednik słowa kapusta?
 cabbage
 Który podróżnik odbył jedną z najsłynniejszych w dziejach podróż do Azji w XIII wieku?
 Marco Polo
+Jaki jest angielski odpowiednik słowa mleko?
+milk
+Jaki jest angielski odpowiednik słowa piwo?
+beer
+Jaki jest angielski odpowiednik słowa ptak?
+bird
+Jaki jest angielski odpowiednik słowa broda?
+beard
+Jaki jest angielski odpowiednik słowa niedźwiedź?
+bear
+Co to znaczy: january?
+styczeń
+Co to znaczy: snow?
+śnieg?
+Co to znaczy: rain?
+deszcz
+Co to znaczy: strawberry?
+truskawka
+Jaki symbol chemiczny ma fosfor?
+P
+Jaki symbol chemiczny ma siarka?
+S
+Jaki pierwiastek chemiczny ma sód?
+Na
+Jaki miesiąc ma najdłuższy dzień w roku? 
+czerwiec
+Jaki miesiąc ma najkrótszy dzień w roku?
+grudzień
+Ile stopni Celsjusza osiąga woda, gdy zaczyna wrzeć?
+100
+Jaka jest temperatura zamarzania wody (w stopniach Celsjusza)?
+0
+Ile to jest tuzin?
+12
+Ile to jest kopa?
+60
+Ile to jest mendel (np. jaj)?
+15
+Jaki skrót ma ten przedmiot?
+TAS

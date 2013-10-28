@@ -12,6 +12,7 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.*;
 
+
 /*
  * Dziedziczenie po UnicastRemoteObject sprawia, że klasa będzie używała
  * domyślnego protokołu komunikacyjnego używanego przez RMI (czyli TCP) oraz
@@ -20,29 +21,19 @@ import java.util.*;
 
 public class InterfejsImpl extends UnicastRemoteObject implements Interfejs {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private int order = 0;
-	//konstruktor zdalnego obiektu
 	private static List<Player> clientsList = new LinkedList<Player>();
-	private List<Question> questionsList = new LinkedList<Question>();
-	private static Map<Integer, String> answersList = new HashMap<Integer, String>();
-	
-	//private static int counter = 0;
+	private static List<Question> questionsList = new LinkedList<Question>();
+	private String[] answer;
 	
 	private void prepareQuestions() throws IOException {
-		//List<String> temp;
-		int randNum;
 		BufferedInputFile bif = new BufferedInputFile();
-		for (int i = 0; i < 11; i = i + 2) {
+		for (int i = 0; i < 63; i = i + 2) {
 			this.questionsList.add(new Question(bif.read("q&a.txt", i), bif.read("q&a.txt", i + 1)));
 		}
 	}
 
     public InterfejsImpl() throws RemoteException {
-        super(); //tutaj jest wywołany konstruktor UnicastRemoteObject
+        super();
     }
     
     
@@ -52,7 +43,7 @@ public class InterfejsImpl extends UnicastRemoteObject implements Interfejs {
     	for(Player l: clientsList) {
     		id = l.getId();
     	}
-    	//System.out.println("Zarejestrowałem gracza o imieniu " + clientsList.getLast().getName() + " i id= " + id);
+    	System.out.println("Zarejestrowałem gracza o imieniu " + clientsList.get(clientsList.size()-1).getName() + " i id= " + id);
     	
     	return id;
     }
@@ -76,6 +67,7 @@ public class InterfejsImpl extends UnicastRemoteObject implements Interfejs {
     	}
     	try {
     		this.prepareQuestions();
+    		this.answer = new String[clientsList.size()];
     	} catch (IOException e) {
             e.printStackTrace();
         }
@@ -87,7 +79,7 @@ public class InterfejsImpl extends UnicastRemoteObject implements Interfejs {
     }
     
     public void giveAnswer(String answer, int userId) throws RemoteException {
-    	this.answersList.put(userId, answer);
+    	this.answer[userId] = answer;
     	clientsList.get(userId).answere(true);
     }
    
@@ -110,27 +102,26 @@ public class InterfejsImpl extends UnicastRemoteObject implements Interfejs {
 	
 	public String getScoreTable(int i, int userId) throws RemoteException {
 		String odp = new String("");
-		System.out.println("User: " + userId);
-		for(String ans: answersList.values()) {
-			if(ans.equals(questionsList.get(i).getAnswer())) {
-				odp = "Poprawna odpowiedź!!";
-				clientsList.get(i).increasePoints(clientsList.size()+order++);
-			}
-			else {
-				odp = "ZŁA odpowiedź!!";
-			}
-			
-		}
 		
-		for(Integer li: answersList.keySet()) {
-			System.out.println(li + ": user" + userId + answersList.get(li));
+		if(answer[userId].toLowerCase().equals(questionsList.get(i).getAnswer().toLowerCase())) {
+			odp = "D O B R Z E !!!\n\n";
+			clientsList.get(userId).increasePoints();
 		}
-		
+		else {
+			odp += "Ź L E !!!\n\n";
+			odp += "Dobra odpowiedź to: " + questionsList.get(i).getAnswer() + "\n\n";
+			odp += "Obecny stan punktowy: \n";
+		}
+		long cur = System.currentTimeMillis();
+		while(System.currentTimeMillis() - cur < 500); 
+				
 		for(Player p: clientsList) {
 			odp += p.getName() + ": " + p.getPoints() + " pkt\n";
 		}
-		answersList.clear();
-		order = 0;
+		
+		for(int h=0; h<clientsList.size(); h++) {
+			answer[h]="";
+		}
 		for(Player p: clientsList) {
 			p.answere(false);
 		}
@@ -139,7 +130,12 @@ public class InterfejsImpl extends UnicastRemoteObject implements Interfejs {
 
 	
 	public void finishGame(int userId) throws RemoteException {
-		clientsList.remove(clientsList.get(userId));		
+		try {
+			clientsList.get(clientsList.size()).setCounter(0);
+			clientsList.clear();		
+		} catch(IndexOutOfBoundsException e) {
+			e.printStackTrace();
+		}
 	}
 
     
