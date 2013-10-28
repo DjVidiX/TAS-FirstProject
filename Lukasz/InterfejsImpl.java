@@ -19,7 +19,11 @@ import java.util.*;
 
 public class InterfejsImpl extends UnicastRemoteObject implements Interfejs {
 
-    //konstruktor zdalnego obiektu
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	//konstruktor zdalnego obiektu
 	private static List<Player> clientsList = new LinkedList<Player>();
 	private List<Question> questionsList = new LinkedList<Question>();
 	private List<String> answersList = new LinkedList<String>();
@@ -41,7 +45,7 @@ public class InterfejsImpl extends UnicastRemoteObject implements Interfejs {
     	for(Player l: clientsList) {
     		id = l.getId();
     	}
-    	System.out.println("Zarejestrowałem gracza o imieniu " + clientsList.getLast().getName() + " i id= " + id);
+    	//System.out.println("Zarejestrowałem gracza o imieniu " + clientsList.getLast().getName() + " i id= " + id);
     	
     	return id;
     }
