@@ -12,6 +12,7 @@
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.io.*;
 
 public interface Interfejs extends Remote {
     
@@ -21,6 +22,6 @@ public interface Interfejs extends Remote {
     public String getQuestion(int i) throws RemoteException;
     public void giveAnswer(String answer, int userId) throws RemoteException;
     public void waitForAnswers() throws RemoteException;
-    public String getScoreTable() throws RemoteException;
+    public String getScoreTable(int i, int userId) throws RemoteException;
     public void finishGame(int userId) throws RemoteException;
 }

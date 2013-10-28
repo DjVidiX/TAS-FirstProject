@@ -2,17 +2,24 @@ class Player {
 	private String name;
 	private static int counter = 0;
 	private final int id = counter++;
-	private Boolean ready = false;
+	private boolean ready = false;
 	private int points = 0;
+	private boolean ifAnswer = false;
 	
 	public Player() {
 		this.name = "Undefined";
-		this.ready = false;
 	}
-	
+
 	public Player(String name) {
 		this.name = name;
-		this.ready = false;
+	}
+	
+	public boolean answered() {
+		return ifAnswer;
+	}
+	
+	public void answere(boolean a) {
+		this.ifAnswer = a;
 	}
 	
 	public int getId() {

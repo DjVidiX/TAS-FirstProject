@@ -7,6 +7,7 @@
  *
  */
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.*;
@@ -23,15 +24,21 @@ public class InterfejsImpl extends UnicastRemoteObject implements Interfejs {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private int order = 0;
 	//konstruktor zdalnego obiektu
 	private static List<Player> clientsList = new LinkedList<Player>();
 	private List<Question> questionsList = new LinkedList<Question>();
-	private List<String> answersList = new LinkedList<String>();
+	private static Map<Integer, String> answersList = new HashMap<Integer, String>();
 	
 	//private static int counter = 0;
 	
-	private void prepareQuestions() {
-		this.questionsList.add(new Question("Kto jest gejem?", "Łukasz"));
+	private void prepareQuestions() throws IOException {
+		//List<String> temp;
+		int randNum;
+		BufferedInputFile bif = new BufferedInputFile();
+		for (int i = 0; i < 11; i = i + 2) {
+			this.questionsList.add(new Question(bif.read("q&a.txt", i), bif.read("q&a.txt", i + 1)));
+		}
 	}
 
     public InterfejsImpl() throws RemoteException {
@@ -52,26 +59,26 @@ public class InterfejsImpl extends UnicastRemoteObject implements Interfejs {
     
     public void setReady(int id) throws RemoteException {
     	clientsList.get(id).setReady();
-		System.out.println("LOOL l.getId():)");
     }
     
     public void waitForPlayers() throws RemoteException {
     	boolean ready_all = false;
     	while (!ready_all) {
     		for(int i = 0; i < clientsList.size(); i++) {
-    			System.out.println("klient i= " + i + "jest gotowy? " + clientsList.get(i).isReady());
 				if (!clientsList.get(i).isReady()) {
-					System.out.println("klient i=" + i + "jest niegotowy:" );
 					ready_all = false;
 					break;
 				}
 				else {
-					System.out.println("klient i=" + i + "jest gotowy:" );
 					ready_all = true;
 				}
     		}
     	}
-    	this.prepareQuestions();
+    	try {
+    		this.prepareQuestions();
+    	} catch (IOException e) {
+            e.printStackTrace();
+        }
     	
     }
     
@@ -80,21 +87,52 @@ public class InterfejsImpl extends UnicastRemoteObject implements Interfejs {
     }
     
     public void giveAnswer(String answer, int userId) throws RemoteException {
-    	this.answersList.add(answer);
-    	clientsList.get(userId).increasePoints(5);
+    	this.answersList.put(userId, answer);
+    	clientsList.get(userId).answere(true);
     }
    
     
 	public void waitForAnswers() throws RemoteException {
-    	while(answersList.size()==clientsList.size());		
+		boolean answer_all = false;
+    	while (!answer_all) {
+    		for(int i = 0; i < clientsList.size(); i++) {
+				if (!clientsList.get(i).answered()) {
+					answer_all = false;
+					break;
+				}
+				else {
+					answer_all = true;
+				}
+    		}
+    	};
 	}
 
 	
-	public String getScoreTable() throws RemoteException {
-		answersList.clear();
+	public String getScoreTable(int i, int userId) throws RemoteException {
 		String odp = new String("");
+		System.out.println("User: " + userId);
+		for(String ans: answersList.values()) {
+			if(ans.equals(questionsList.get(i).getAnswer())) {
+				odp = "Poprawna odpowiedź!!";
+				clientsList.get(i).increasePoints(clientsList.size()+order++);
+			}
+			else {
+				odp = "ZŁA odpowiedź!!";
+			}
+			
+		}
+		
+		for(Integer li: answersList.keySet()) {
+			System.out.println(li + ": user" + userId + answersList.get(li));
+		}
+		
 		for(Player p: clientsList) {
 			odp += p.getName() + ": " + p.getPoints() + " pkt\n";
+		}
+		answersList.clear();
+		order = 0;
+		for(Player p: clientsList) {
+			p.answere(false);
 		}
 		return odp;
 	}
@@ -103,6 +141,7 @@ public class InterfejsImpl extends UnicastRemoteObject implements Interfejs {
 	public void finishGame(int userId) throws RemoteException {
 		clientsList.remove(clientsList.get(userId));		
 	}
+
     
     
     

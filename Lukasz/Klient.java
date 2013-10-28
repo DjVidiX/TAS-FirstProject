@@ -1,9 +1,11 @@
 import java.net.MalformedURLException;
+
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RMISecurityManager;
 import java.rmi.RemoteException;
 import java.util.*;
+import java.io.*;
 
 public class Klient {
 
@@ -42,17 +44,23 @@ public class Klient {
 	    	System.out.println("Gra rozpoczęta.\n");
 	    	
 	    	for (int i = 0; i < 5; i++) {
-	    		k.question = k.interf.getQuestion(i);
+	    		Random rn = new Random();
+	    		int randomNum = rn.nextInt(12);
+	    		
+	    		k.question = k.interf.getQuestion(randomNum);
 	    		
 	    		System.out.println(k.question + "\n\nOdpowiedź: ");
 	    		
 	    		k.answer = k.in.next();
 	    		k.interf.giveAnswer(k.answer, k.id);
-	    		k.interf.waitForAnswers();
 	    		
 	    		System.out.println("Oczekiwanie na odpowiedzi pozostałych graczy...\n");
+
+	    		k.interf.waitForAnswers();
+	    		PrintWriter my = new PrintWriter(System.out);
 	    		
-	    		k.scoreTable = k.interf.getScoreTable();
+	    		
+	    		k.scoreTable = k.interf.getScoreTable(0, k.id);
 	    		
 		    	System.out.println("\n"+ k.scoreTable + "\n\n");
 	    	}
