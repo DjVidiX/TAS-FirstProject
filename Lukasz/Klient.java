@@ -15,9 +15,9 @@ public class Klient {
 	//private GetAnswerTask GAT;
 
 	/*class GetAnswerTask extends TimerTask {
-		
+
 		private String answer;
-		
+
 		@Override
         	public void run() {
 			Scanner temp = new Scanner(System.in);

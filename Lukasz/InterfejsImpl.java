@@ -41,7 +41,8 @@ public class InterfejsImpl extends UnicastRemoteObject implements Interfejs {
     }
     
     public LinkedList<Player> getClientList() throws RemoteException {
-	return clientsList;
+	LinkedList<Player> list = new LinkedList<Player>(clientsList);
+	return list;
     }
     
     public void SetReady(int user_id) throws RemoteException {
