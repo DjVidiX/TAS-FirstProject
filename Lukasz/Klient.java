@@ -8,66 +8,58 @@ import java.util.*;
 public class Klient {
 
 	private int id;
-	private String ready = "lol";
+	private String ready = "temp", question, answer, scoreTable;
 	private Interfejs interf = null;
-	//private List[Integer];
-	//private LinkedList<Player> players_list = new LinkedList<Player>();
-	//private Timer timer;
-	//private GetAnswerTask GAT;
+	private Scanner in = new Scanner(System.in);
 
-	/*class GetAnswerTask extends TimerTask {
-		
-		private String answer;
-		
-		@Override
-        	public void run() {
-			Scanner temp = new Scanner(System.in);
-    			answer = temp.next();
-		    if (answer.equals("dupa")) {
-		    	timer.cancel();
-		    	System.exit(0);
-		    }
-		}
-	}*/
-
-    	public static void main(String[] args) {
+    public static void main(String[] args) {
 
         if (args.length != 2) {
-            System.out
-                    .println("parametry: //host/nazwa nazwa_użytkownika");
+            System.out.println("parametry: //host/nazwa nazwa_użytkownika");
             System.exit(0);
         }
-        String file_name = args[0];
-        String user_name = args[1];
+        String fileName = args[0];
+        String userName = args[1];
 
         if (System.getSecurityManager() == null) {
             System.setSecurityManager(new RMISecurityManager());
         }
 	
-	try {
-	    	Klient k = new Klient();
-            k.interf = (Interfejs) Naming.lookup(file_name);
-            k.id = k.interf.registryClient(user_name);
-            //k.players_list = k.interf.getClientList();
-	    	System.out.println("Gdy bedziesz gotów, by rozpocząć grę, wpisz \"r\"\n");
-	    	while (!k.ready.equals("r")) {
-	    		Scanner in = new Scanner(System.in);
-	    		k.ready = in.next();
-	    	}
-	    	System.out.println("Oczekiwanie na pozostalych graczy...\n");
+        try {
+        	Klient k = new Klient();
+            k.interf = (Interfejs) Naming.lookup(fileName);
+            k.id = k.interf.registryClient(userName);
+            
+	    	System.out.println("Gdy będziesz gotów, wpisz \"r\" by rozpocząć grę!\n");
+	    	
+	    	while (!k.ready.equals("r")) k.ready = k.in.next();
+	    	k.interf.setReady(k.id);
+	    	
+	    	System.out.println("Oczekiwanie na pozostałych graczy...\n");
+	    	
 	    	k.interf.waitForPlayers();
 	    	
-			/*k.interf.SetReady(k.id);
-			boolean ready_all = false;
-			while (!ready_all) {
-				for(int i = 0; i < k.players_list.size(); i++) {
-				if (!k.players_list.get(i).isReady()) break;
-				if (i == k.players_list.size() - 1 && k.players_list.get(i).isReady()) ready_all = true;
-				}*/
 	    	System.out.println("Gra rozpoczęta.\n");
-
-		//k.timer = new Timer();
-		//k.timer.schedule(k.GAT, 0, 2000);
+	    	
+	    	for (int i = 0; i < 5; i++) {
+	    		k.question = k.interf.getQuestion(i);
+	    		
+	    		System.out.println(k.question + "\n\nOdpowiedź: ");
+	    		
+	    		k.answer = k.in.next();
+	    		k.interf.giveAnswer(k.answer, k.id);
+	    		k.interf.waitForAnswers();
+	    		
+	    		System.out.println("Oczekiwanie na odpowiedzi pozostałych graczy...\n");
+	    		
+	    		k.scoreTable = k.interf.getScoreTable();
+	    		
+		    	System.out.println("\n"+ k.scoreTable + "\n\n");
+	    	}
+	    	k.interf.finishGame(k.id);
+	    	
+	    	System.out.println("Gra zakończona.");
+	    	
 	        
         } catch (MalformedURLException e) {
             e.printStackTrace();

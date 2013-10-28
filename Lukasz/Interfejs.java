@@ -12,12 +12,15 @@
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.util.*;
 
 public interface Interfejs extends Remote {
     
-    public int registryClient(String nazwa) throws RemoteException;
-    //public LinkedList<Player> getClientList() throws RemoteException;
+	public int registryClient(String nazwa) throws RemoteException;
     public void waitForPlayers() throws RemoteException;
-    public void SetReady(int id) throws RemoteException;
+    public void setReady(int id) throws RemoteException;
+    public String getQuestion(int i) throws RemoteException;
+    public void giveAnswer(String answer, int userId) throws RemoteException;
+    public void waitForAnswers() throws RemoteException;
+    public String getScoreTable() throws RemoteException;
+    public void finishGame(int userId) throws RemoteException;
 }
