@@ -131,8 +131,7 @@ public class InterfejsImpl extends UnicastRemoteObject implements Interfejs {
 	
 	public void finishGame(int userId) throws RemoteException {
 		try {
-			clientsList.clear();	
-			System.exit(0);
+			clientsList.clear();
 			System.out.println("Koniec pracy serwera!");
 		} catch(IndexOutOfBoundsException e) {
 			e.printStackTrace();

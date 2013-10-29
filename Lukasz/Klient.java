@@ -43,10 +43,14 @@ public class Klient {
 	    	k.interf.waitForPlayers();
 	    	
 	    	System.out.println("Gra rozpoczęta.\n");
+	    	List<Integer> questionsNumber = new LinkedList<Integer>();
 	    	
 	    	for (int i = 0; i < 5; i++) {
 	    		Random rn = new Random();
 	    		int randomNum = rn.nextInt(64);
+	    		while(questionsNumber.contains(randomNum)) {
+	    			randomNum = rn.nextInt(64);
+	    		}
 	    		
 	    		k.question = k.interf.getQuestion(randomNum);
 	    		
@@ -74,8 +78,6 @@ public class Klient {
             e.printStackTrace();
         } catch (NotBoundException e) {
             e.printStackTrace();
-        } catch (Exception e) {
-        	System.out.println("Bye");
-        }
+        } 
 	}
 }
