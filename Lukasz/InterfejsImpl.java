@@ -27,7 +27,7 @@ public class InterfejsImpl extends UnicastRemoteObject implements Interfejs {
 	
 	private void prepareQuestions() throws IOException {
 		BufferedInputFile bif = new BufferedInputFile();
-		for (int i = 0; i < 63; i = i + 2) {
+		for (int i = 0; i < 61; i = i + 2) {
 			this.questionsList.add(new Question(bif.read("q&a.txt", i), bif.read("q&a.txt", i + 1)));
 		}
 	}
@@ -131,8 +131,9 @@ public class InterfejsImpl extends UnicastRemoteObject implements Interfejs {
 	
 	public void finishGame(int userId) throws RemoteException {
 		try {
-			clientsList.get(clientsList.size()).setCounter(0);
-			clientsList.clear();		
+			clientsList.clear();	
+			System.exit(0);
+			System.out.println("Koniec pracy serwera!");
 		} catch(IndexOutOfBoundsException e) {
 			e.printStackTrace();
 		}
